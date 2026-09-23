@@ -1,0 +1,135 @@
+---
+title: "Times Higher Education World University Ranking"
+format:
+  html:
+    output-file: "hw.html"
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(dplyr)
+library(tidyr)
+library(reactable)
+library(readr)
+```
+
+```{r}
+#| code-fold: true
+df<-read.csv("http://manctsui.github.io/datasets/timesData.csv")|>
+  mutate(world_rank=parse_number(world_rank))
+reactable(df,defaultPageSize = 5,searchable = TRUE)
+```
+
+$$
+\textbf{Problem 2}
+$$
+
+My guess was that Professor Man Cheung went to Stanford University. Here's the World Ranking of Stanford from 2011-2016.
+
+```{r}
+#| code-fold: true
+#| layout-ncol: 1
+
+stan<- df|>
+  filter(university_name=="Stanford University")|>
+  select("Ranking"=world_rank,"University"=university_name,year)
+
+reactable(stan)
+```
+
+$$
+\textbf{Problem 3}
+$$
+
+```{r}
+#| code-fold: true
+ranking<-stan$Ranking
+years<-stan$year
+year<-as.numeric(years)
+
+
+plot(year,ranking,
+     main="Stanford University Rankings (2011-2016)",
+     xlab="Year",
+     ylab="Ranking",
+     type="l"
+  
+)
+```
+
+$$
+\textbf{Problem 4}
+$$
+```{r}
+#| code-fold: true
+#| layout-ncol: 2
+berk<-df|>
+  filter(university_name=="University of California, Berkeley")|>
+  select(world_rank,university_name,year)
+
+branking<-berk$world_rank
+byears<-berk$year
+byear<-as.numeric(byears)
+
+plot(byear,branking,
+     main="UC Berkeley Rankings (2011-2016)",
+     xlab="Year",
+     ylab="Ranking",
+     type="l"
+)
+
+plot(year,ranking,
+     main="Stanford University Rankings (2011-2016)",
+     xlab="Year",
+     ylab="Ranking",
+     type="l"
+  
+)
+```
+
+$$
+\textbf{Problem 5}
+$$
+
+```{r}
+#| code-fold: true
+#| layout-ncol: 6
+
+df11<- df|>
+filter(world_rank<=50,year=="2011",country=="United States of America")|>
+  select("Ranking"=world_rank,"University"=university_name,"Year"=year)
+
+reactable(df11)
+
+df12<- df|>
+filter(world_rank<=50,year=="2012",country=="United States of America")|>
+  select("Ranking"=world_rank,"University"=university_name,"Year"=year)
+reactable(df12)
+
+df13<- df|>
+filter(world_rank<=50,year=="2013",country=="United States of America")|>
+  select("Ranking"=world_rank,"University"=university_name,"Year"=year)
+reactable(df13)
+
+df14<- df|>
+filter(world_rank<=50,year=="2014",country=="United States of America")|>
+  select("Ranking"=world_rank,"University"=university_name,"Year"=year)
+reactable(df14)
+
+df15<- df|>
+filter(world_rank<=50,year=="2015",country=="United States of America")|>
+  select("Ranking"=world_rank,"University"=university_name,"Year"=year)
+reactable(df15)
+
+df16<- df|>
+filter(world_rank<=50,year=="2016",country=="United States of America")|>
+  select("Ranking"=world_rank,"University"=university_name,"Year"=year)
+reactable(df16)
+
+
+
+
+
+```
